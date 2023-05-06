@@ -1,0 +1,12 @@
+{
+    "workbench.colorCustomizations": {
+        "editor.lineHighlightBackground": "#1073cf2d",
+        "editor.lineHighlightBorder": "#9fced11f",
+        "activityBar.background": "#471165",
+        "titleBar.activeBackground": "#63188E",
+        "titleBar.activeForeground": "#FDFAFE"
+    },
+    "git.ignoredRepositories": [
+        "\"\""
+    ]
+}
