@@ -152,9 +152,34 @@ def get_json_value_from():
     print(result)
 
 
+def install_symlinks():
+    """创建软链接"""
+    script_path = os.path.abspath(sys.argv[0])
+    script_dir = os.path.dirname(script_path)
+    
+    symlinks = ["get_json_value_from", "set_json_value_to", "add_json_value_to_array"]
+    
+    for link_name in symlinks:
+        link_path = os.path.join(script_dir, link_name)
+        try:
+            # 如果软链接已存在则删除
+            if os.path.islink(link_path):
+                os.unlink(link_path)
+            # 创建软链接
+            os.symlink(script_path, link_path)
+            print(f"✓ 创建软链接: {link_path} -> {script_path}")
+        except OSError as e:
+            print(f"✗ 创建失败 {link_name}: {e}")
+
+
 if __name__ == "__main__":
     # 获取程序名称（不含路径）
     prog_name = os.path.basename(sys.argv[0]).replace('.py', '')
+    
+    # 检查是否为 --install 参数
+    if len(sys.argv) > 1 and sys.argv[1] == "--install":
+        install_symlinks()
+        sys.exit(0)
     
     if prog_name == "get_json_value_from":
         dbg_print(f"参数: {sys.argv[1:]}")
@@ -166,11 +191,7 @@ if __name__ == "__main__":
         dbg_print(f"参数: {sys.argv[1:]}")
         add_json_value_to_array()
     else:
-        # 创建软链接
-        os.symlink(sys.argv[0], "get_json_value_from")
-        os.symlink(sys.argv[0], "set_json_value_to")
-        os.symlink(sys.argv[0], "add_json_value_to_array")
         # 默认: 命令行参数指定函数
         if len(sys.argv) < 2:
-            print("用法: py_json <function> [args...]")
+            print("用法: py_json <function> [args...] 或 py_json --install")
             sys.exit(1)
