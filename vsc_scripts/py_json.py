@@ -166,6 +166,10 @@ if __name__ == "__main__":
         dbg_print(f"参数: {sys.argv[1:]}")
         add_json_value_to_array()
     else:
+        # 创建软链接
+        os.symlink(sys.argv[0], "get_json_value_from")
+        os.symlink(sys.argv[0], "set_json_value_to")
+        os.symlink(sys.argv[0], "add_json_value_to_array")
         # 默认: 命令行参数指定函数
         if len(sys.argv) < 2:
             print("用法: py_json <function> [args...]")
